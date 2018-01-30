@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
 
-  entry: './src/index.jsx',
+  entry: ['babel-polyfill', './src/index.jsx'],
   output: {
     path: path.resolve(__dirname, 'web/build'),
     filename: 'bundle.js'
@@ -22,7 +22,10 @@ module.exports = {
   },
 
   resolve: {
-    extensions: ['.js', '.jsx']
+      modules: [
+          'node_modules'
+      ],
+      extensions: ['.js', '.jsx']
   },
 
   devServer: {
