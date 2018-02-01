@@ -1,4 +1,3 @@
-import {combineReducers} from 'redux'
 import {
   REQUEST_LIST_START,
   REQUEST_LIST_SUCCESS,
@@ -16,6 +15,7 @@ function videoList(state = {
     case REQUEST_LIST_START:
       return {...state, ...{isFetching: true}};
     case REQUEST_LIST_SUCCESS:
+      console.log(action);
       return {...state, ...{items: action.items}};
     case REQUEST_LIST_FAILURE:
       return {...state, ...{error: 1}};
@@ -24,6 +24,4 @@ function videoList(state = {
   }
 }
 
-export const rootReducer = combineReducers({
-  videoList
-});
+export default videoList;

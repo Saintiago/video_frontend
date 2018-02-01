@@ -3,15 +3,8 @@ import PropTypes from 'prop-types'
 
 class VideoList extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.items = this.props.items;
-  }
-
   renderItems() {
-    return this.items.map(function(item) {
-      console.log(item);
+    return this.props.items.map(function(item) {
       return <li>{item.name}</li>
     });
   }
@@ -29,8 +22,7 @@ VideoList.propTypes = {
       duration: PropTypes.number,
       thumbnail: PropTypes.string
     })
-  ),
-  onMount: PropTypes.func
+  )
 };
 
 export default VideoList;

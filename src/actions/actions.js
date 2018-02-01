@@ -27,16 +27,15 @@ export function requestList() {
 
   return function(dispatch) {
     dispatch(requestListStart());
-    return fetch('https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0/api/v1/list', {
+    fetch('https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0/api/v1/list', {
       headers: { "Accept": "application/json"}
     })
       .then(
-        response => response.json()
+        response => response.json(),
+        error => dispatch(requestListFailure(error))
     )
       .then(
         json => dispatch(requestListSuccess(json))
-    ).catch(
-      error => dispatch(requestListFailure(error))
     )
   }
 }

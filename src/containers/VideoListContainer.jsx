@@ -3,12 +3,13 @@ import VideoList from '../components/VideoList'
 
 const mapStateToProps = state => {
   return {
-    items: state.videoList.items
+    items: state.items
   }
 };
 
+
 const VideoListContainer = connect(
-  mapStateToProps
+  mapStateToProps,
 )(VideoList);
 
 export default VideoListContainer
