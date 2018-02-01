@@ -1,8 +1,9 @@
 import React from 'react';
+import VideoListContainer from '../containers/VideoListContainer'
 
 class App extends React.Component {
   render() {
-    return <h1>Me working!</h1>;
+    return <VideoListContainer />;
   }
 }
 

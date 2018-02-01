@@ -3,7 +3,7 @@ import {
   REQUEST_LIST_START,
   REQUEST_LIST_SUCCESS,
   REQUEST_LIST_FAILURE
-} from './actions'
+} from '../actions/actions'
 
 function videoList(state = {
                      isFetching: false,
@@ -24,8 +24,6 @@ function videoList(state = {
   }
 }
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   videoList
 });
-
-export default rootReducer;
