@@ -26,7 +26,7 @@ export function requestList() {
 
   return function(dispatch) {
     dispatch(requestListStart());
-    fetch('https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0/api/v1/list', {
+    fetch('/api/v1/list', {
       headers: { "Accept": "application/json"}
     })
       .then(
@@ -64,7 +64,7 @@ export function requestVideo(id) {
 
   return function(dispatch) {
     dispatch(requestVideoStart());
-    fetch('https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0/api/v1/video/' + id, {
+    fetch('/api/v1/video/' + id, {
       headers: { "Accept": "application/json"}
     })
     .then(
@@ -84,5 +84,11 @@ export function switchView(viewId) {
   return {
     type: action.SWITCH_VIEW,
     view: viewId
+  }
+}
+
+export function goToList() {
+  return {
+    type: action.GO_TO_LIST
   }
 }

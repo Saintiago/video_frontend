@@ -5,20 +5,32 @@ import Grid from 'material-ui/Grid';
 import Typography from 'material-ui/Typography';
 import { withStyles } from 'material-ui/styles';
 
+const styles = () => ({
+  root: {
+    flexGrow: 1,
+    margin: '0 auto',
+    width: 500
+  },
+  paper: {
+    padding: 16,
+    textAlign: 'center',
+  },
+});
+
 function VideoDetailed (props) {
-  const {video} = props;
+  const {classes, video} = props;
   return (
-    <Grid container>
-      <Grid item xs={12}>
-      <Paper>
+    <Grid container className={classes.root} spacing={24}>
+      <Grid item xs>
+      <Paper className={classes.paper}>
         <video poster={video.thumbnail} controls>
           <source src={video.url} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
       </Paper>
       </Grid>
-      <Grid item xs={12}>
-      <Paper>
+      <Grid item xs>
+      <Paper className={classes.paper}>
         <Typography type="headline" component="h3">
           {video.name}
         </Typography>
@@ -32,6 +44,7 @@ function VideoDetailed (props) {
 }
 
 VideoDetailed.propTypes = {
+  classes: PropTypes.object.isRequired,
   video: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -41,4 +54,4 @@ VideoDetailed.propTypes = {
   })
 };
 
-export default VideoDetailed;
+export default withStyles(styles)(VideoDetailed);

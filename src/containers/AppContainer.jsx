@@ -1,16 +1,16 @@
 import { connect } from 'react-redux'
 import App from '../components/App'
-import { switchView } from '../actions/actions';
+import {goToList} from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
-    view: state.view
+    currentView: state.view
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onViewSwitch: (viewId) => dispatch(switchView(viewId))
+    onBackButtonClick: () => dispatch(goToList())
   }
 };
 
