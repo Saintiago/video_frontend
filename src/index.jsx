@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import VideoListContainer from './containers/VideoListContainer'
+import AppContainer from './containers/AppContainer'
 import { createStore, applyMiddleware } from 'redux'
-import videoList from './reducers/reducers'
+import Reducers from './reducers'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 import { requestList } from './actions/actions'
 
 const store = createStore(
-  videoList,
+  Reducers,
   applyMiddleware(
     thunkMiddleware
   )
@@ -16,7 +16,7 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <VideoListContainer />
+    <AppContainer />
   </Provider>,
   document.getElementById('root')
 );

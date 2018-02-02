@@ -1,24 +1,23 @@
 import { fetch } from 'cross-fetch';
+import * as action from './actionTypes'
+import * as view from '../routing/views'
 
-export const REQUEST_LIST_START = 'REQUEST_LIST_START';
 export function requestListStart() {
   return {
-    type: REQUEST_LIST_START
+    type: action.REQUEST_LIST_START
   }
 }
 
-export const REQUEST_LIST_SUCCESS = 'REQUEST_LIST_SUCCESS';
 export function requestListSuccess(items) {
   return {
-    type: REQUEST_LIST_SUCCESS,
+    type: action.REQUEST_LIST_SUCCESS,
     items
   }
 }
 
-export const REQUEST_LIST_FAILURE = 'REQUEST_LIST_FAILURE';
 export function requestListFailure(error) {
   return {
-    type: REQUEST_LIST_FAILURE,
+    type: action.REQUEST_LIST_FAILURE,
     error
   }
 }
@@ -40,6 +39,50 @@ export function requestList() {
   }
 }
 
-export const REQUEST_VIDEO_START = 'REQUEST_VIDEO_START';
-export const REQUEST_VIDEO_SUCCESS = 'REQUEST_VIDEO_SUCCESS';
-export const REQUEST_VIDEO_FAILURE = 'REQUEST_VIDEO_FAILURE';
+
+export function requestVideoStart() {
+  return {
+    type: action.REQUEST_VIDEO_START
+  }
+}
+
+export function requestVideoSuccess(video) {
+  return {
+    type: action.REQUEST_VIDEO_SUCCESS,
+    video
+  }
+}
+
+export function requestVideoFailure(error) {
+  return {
+    type: action.REQUEST_VIDEO_FAILURE,
+    error
+  }
+}
+
+export function requestVideo(id) {
+
+  return function(dispatch) {
+    dispatch(requestVideoStart());
+    fetch('https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0/api/v1/video/' + id, {
+      headers: { "Accept": "application/json"}
+    })
+    .then(
+      response => response.json(),
+      error => dispatch(requestVideoFailure(error))
+    )
+    .then(
+      json => dispatch(requestVideoSuccess(json))
+    )
+    .then(
+      () => dispatch(switchView(view.DETAILED))
+    )
+  }
+}
+
+export function switchView(viewId) {
+  return {
+    type: action.SWITCH_VIEW,
+    view: viewId
+  }
+}

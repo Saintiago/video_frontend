@@ -4,8 +4,13 @@ import PropTypes from 'prop-types'
 class VideoList extends React.Component {
 
   renderItems() {
+    let itemClickHandler = this.props.onItemClick.bind(this);
     return this.props.items.map(function(item) {
-      return <li>{item.name}</li>
+      return (
+        <li key={item.id} onClick={() => itemClickHandler(item.id)}>
+          {item.name}
+        </li>
+      )
     });
   }
 
@@ -22,7 +27,8 @@ VideoList.propTypes = {
       duration: PropTypes.number,
       thumbnail: PropTypes.string
     })
-  )
+  ),
+  onItemClick: PropTypes.func
 };
 
 export default VideoList;
