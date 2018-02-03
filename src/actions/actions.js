@@ -26,15 +26,21 @@ export function requestList() {
 
   return function(dispatch) {
     dispatch(requestListStart());
+    // https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0
     fetch('/api/v1/list', {
       headers: { "Accept": "application/json"}
     })
       .then(
-        response => response.json(),
-        error => dispatch(requestListFailure(error))
+        response => response.json()
     )
       .then(
         json => dispatch(requestListSuccess(json))
+    )
+      .then(
+        () => dispatch(switchView(view.LIST))
+    )
+      .catch(
+        error => dispatch(requestListFailure(error))
     )
   }
 }
@@ -64,12 +70,12 @@ export function requestVideo(id) {
 
   return function(dispatch) {
     dispatch(requestVideoStart());
+    // https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0
     fetch('/api/v1/video/' + id, {
       headers: { "Accept": "application/json"}
     })
     .then(
       response => response.json(),
-      error => dispatch(requestVideoFailure(error))
     )
     .then(
       json => dispatch(requestVideoSuccess(json))
@@ -77,6 +83,9 @@ export function requestVideo(id) {
     .then(
       () => dispatch(switchView(view.DETAILED))
     )
+    .catch(
+      error => dispatch(requestVideoFailure(error))
+    );
   }
 }
 
@@ -90,5 +99,11 @@ export function switchView(viewId) {
 export function goToList() {
   return {
     type: action.GO_TO_LIST
+  }
+}
+
+export function hideErrors() {
+  return {
+    type: action.HIDE_ERRORS
   }
 }

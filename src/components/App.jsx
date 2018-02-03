@@ -8,6 +8,8 @@ import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import * as view from '../routing/views'
+import { LinearProgress } from 'material-ui/Progress';
+import ErrorMessageContainer from '../containers/ErrorMessageContainer'
 
 const styles = {
   root: {
@@ -24,9 +26,16 @@ const styles = {
 
 function App (props) {
 
-  const { classes, currentView, onBackButtonClick } = props;
+  const { classes, currentView, onBackButtonClick, loading, error } = props;
   const isDetailedView = (currentView === view.DETAILED);
-  let renderContent = () => isDetailedView ? <VideoDetailedContainer /> : <VideoListContainer />;
+  let renderContent = () => {
+    switch (currentView) {
+      case view.DETAILED:
+        return <VideoDetailedContainer/>;
+      case view.LIST:
+        return <VideoListContainer/>;
+    }
+  };
 
   return(
     <div>
@@ -38,6 +47,8 @@ function App (props) {
         {isDetailedView ? <Button onClick={onBackButtonClick} color="inherit">Back to list</Button> : ''}
       </Toolbar>
     </AppBar>
+    {loading ? <LinearProgress mode="query" /> : ''}
+    {error !== '' ? <ErrorMessageContainer /> : ''}
     {renderContent()}
     </div>
   )
@@ -46,7 +57,9 @@ function App (props) {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   currentView: PropTypes.string,
-  onBackButtonClick: PropTypes.func
+  onBackButtonClick: PropTypes.func,
+  loading: PropTypes.bool,
+  error: PropTypes.string
 };
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(App)

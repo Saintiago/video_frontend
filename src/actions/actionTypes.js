@@ -8,3 +8,4 @@ export const REQUEST_VIDEO_FAILURE = 'REQUEST_VIDEO_FAILURE';
 
 export const SWITCH_VIEW = 'SWITCH_VIEW';
 export const GO_TO_LIST = 'GO_TO_LIST';
+export const HIDE_ERRORS = 'HIDE_ERRORS';

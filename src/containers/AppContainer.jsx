@@ -4,7 +4,9 @@ import {goToList} from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
-    currentView: state.view
+    currentView: state.view.currentView,
+    loading: state.view.loading,
+    error: state.view.error
   }
 };
 

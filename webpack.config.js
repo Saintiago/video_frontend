@@ -6,7 +6,7 @@ const HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin
 
 module.exports = {
 
-  entry: ['babel-polyfill', './src/index.jsx'],
+  entry: ['./src/index.jsx'],
   output: {
     path: path.resolve(__dirname, 'web'),
     filename: 'index.js'

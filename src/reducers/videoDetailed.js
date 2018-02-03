@@ -2,7 +2,6 @@ import * as actionType from '../actions/actionTypes'
 
 function videoDetailed(state = {
   isFetching: false,
-  error: 0,
   video: null
 }, action) {
   switch (action.type) {
@@ -10,8 +9,6 @@ function videoDetailed(state = {
       return {...state, ...{isFetching: true}};
     case actionType.REQUEST_VIDEO_SUCCESS:
       return {...state, ...{video: action.video, isFetching: true}};
-    case actionType.REQUEST_VIDEO_FAILURE:
-      return {...state, ...{error: 1, isFetching: true}};
     default:
       return state;
   }
