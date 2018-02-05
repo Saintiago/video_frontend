@@ -15,6 +15,9 @@ const styles = () => ({
     padding: 16,
     textAlign: 'center',
   },
+  video: {
+    maxWidth: 400
+  }
 });
 
 function VideoDetailed (props) {
@@ -23,7 +26,7 @@ function VideoDetailed (props) {
     <Grid container className={classes.root} spacing={24}>
       <Grid item xs>
       <Paper className={classes.paper}>
-        <video poster={video.thumbnail} controls>
+        <video className={classes.video} poster={video.thumbnail} controls>
           <source src={video.url} type="video/mp4" />
           Your browser does not support the video tag.
         </video>

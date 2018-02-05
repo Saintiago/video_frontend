@@ -1,6 +1,7 @@
 import { fetch } from 'cross-fetch';
 import * as action from './actionTypes'
 import * as view from '../routing/views'
+import { validateList, validateVideo } from "../lib/validators";
 
 export function requestListStart() {
   return {
@@ -34,7 +35,12 @@ export function requestList() {
         response => response.json()
     )
       .then(
-        json => dispatch(requestListSuccess(json))
+        function (json) {
+          if (!validateList(json)) {
+            throw new Error('incorrect list json.');
+          }
+          return dispatch(requestListSuccess(json));
+        }
     )
       .then(
         () => dispatch(switchView(view.LIST))
@@ -78,7 +84,12 @@ export function requestVideo(id) {
       response => response.json(),
     )
     .then(
-      json => dispatch(requestVideoSuccess(json))
+      function (json) {
+        if (!validateVideo(json)) {
+          throw new Error('incorrect video json.');
+        }
+        return dispatch(requestVideoSuccess(json))
+      }
     )
     .then(
       () => dispatch(switchView(view.DETAILED))
