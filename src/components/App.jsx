@@ -22,6 +22,9 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
+  preloader: {
+    marginBottom: -5
+  }
 };
 
 function App (props) {
@@ -47,7 +50,7 @@ function App (props) {
         {isDetailedView ? <Button onClick={onBackButtonClick} color="inherit">Back to list</Button> : ''}
       </Toolbar>
     </AppBar>
-    {loading ? <LinearProgress mode="query" /> : ''}
+    {loading ? <LinearProgress className={classes.preloader} mode="query" /> : ''}
     {error !== '' ? <ErrorMessageContainer /> : ''}
     {renderContent()}
     </div>

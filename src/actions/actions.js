@@ -1,7 +1,8 @@
 import { fetch } from 'cross-fetch';
 import * as action from './actionTypes'
 import * as view from '../routing/views'
-import { validateList, validateVideo } from "../lib/validators";
+import { validateList, validateVideo } from '../lib/validators';
+import upload from '../lib/uploader'
 
 export function requestListStart() {
   return {
@@ -116,5 +117,69 @@ export function goToList() {
 export function hideErrors() {
   return {
     type: action.HIDE_ERRORS
+  }
+}
+
+export function uploadVideoStart() {
+  return {
+    type: action.UPLOAD_VIDEO_START
+  }
+}
+
+export function uploadVideoSuccess() {
+  return {
+    type: action.UPLOAD_VIDEO_SUCCESS,
+  }
+}
+
+export function uploadVideoFailure(error) {
+  return {
+    type: action.UPLOAD_VIDEO_FAILURE,
+    error
+  }
+}
+
+export function uploadVideoProgress(loaded, total) {
+  return {
+    type: action.UPLOAD_VIDEO_PROGRESS,
+    loaded,
+    total
+  }
+}
+
+export function uploadVideo(event) {
+
+  if (!event.target.files.length) {
+    return {
+      type: action.NOTHING_HAPPENED
+    };
+  }
+
+  const file = event.target.files[0];
+
+  return function(dispatch) {
+    dispatch(uploadVideoStart());
+
+    const headers = new Map([
+      ['Accept', 'text/plain'],
+    ]);
+    const method = 'POST';
+    // https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0
+    const url = '/api/v1/video';
+
+    let form = new FormData();
+    form.append('path', '/');
+    form.append('name', 'video');
+    form.append('file[]', file);
+
+    const onProgress = (e) => {
+      if (e.lengthComputable) {
+        dispatch(uploadVideoProgress(e.loaded, e.total));
+      }
+    };
+
+    upload(method, url, headers, form, onProgress)
+      .then(() => dispatch(uploadVideoSuccess()))
+      .catch((err) => dispatch(uploadVideoFailure(new Error(err.status + ': ' + err.statusText))));
   }
 }
