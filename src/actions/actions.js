@@ -169,8 +169,7 @@ export function uploadVideo(event) {
 
     let form = new FormData();
     form.append('path', '/');
-    form.append('name', 'video');
-    form.append('file[]', file);
+    form.append('video', file);
 
     const onProgress = (e) => {
       if (e.lengthComputable) {

@@ -74,7 +74,7 @@ function VideoList(props) {
     </GridListTile>
   );
 
-  let renderStatusIcon = (itemStatus) => {
+  let renderStatusIcon = (itemStatus, id) => {
     switch (itemStatus) {
       case status.LOADING:
         return (
@@ -85,7 +85,7 @@ function VideoList(props) {
       case status.READY:
       default:
         return (
-          <IconButton onClick={() => itemClickHandler(tile.id)}>
+          <IconButton onClick={() => itemClickHandler(id)}>
             <PlayCircleFilled />
           </IconButton>
         );
@@ -104,7 +104,7 @@ function VideoList(props) {
             <GridListTileBar
               title={tile.name}
               subtitle={<span>Duration: {tile.duration}</span>}
-              actionIcon={renderStatusIcon(tile.status)}
+              actionIcon={renderStatusIcon(tile.status, tile.id)}
             />
           </GridListTile>
         ))}
