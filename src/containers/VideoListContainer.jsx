@@ -1,19 +1,16 @@
 import { connect } from 'react-redux'
 import VideoList from '../components/VideoList'
-import { requestVideo, uploadVideo } from '../actions/actions';
+import { requestVideo } from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
-    items: state.videoList.items,
-    isUploading: state.videoList.isUploading,
-    progress: state.videoList.progress
+    items: state.videoList.items
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onItemClick: (id) => dispatch(requestVideo(id)),
-    onFileSelected: (event) => dispatch(uploadVideo(event))
+    onItemClick: (id) => dispatch(requestVideo(id))
   }
 };
 

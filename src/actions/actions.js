@@ -179,6 +179,7 @@ export function uploadVideo(event) {
 
     upload(method, url, headers, form, onProgress)
       .then(() => dispatch(uploadVideoSuccess()))
+      .then(() => dispatch(requestList()))
       .catch((err) => dispatch(uploadVideoFailure(new Error(err.status + ': ' + err.statusText))));
   }
 }

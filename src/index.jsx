@@ -20,7 +20,7 @@ document.body.appendChild(root);
 
 ReactDOM.render(
   <Provider store={store}>
-      <AppContainer />
+    <AppContainer />
   </Provider>,
   document.getElementById('root')
 );

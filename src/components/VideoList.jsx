@@ -3,10 +3,8 @@ import PropTypes from 'prop-types'
 import GridList, {GridListTile, GridListTileBar} from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
-import FileUpload from 'material-ui-icons/FileUpload';
 import PlayCircleFilled from 'material-ui-icons/PlayCircleFilled';
 import {withStyles} from 'material-ui/styles';
-import Button from 'material-ui/Button';
 import { CircularProgress } from 'material-ui/Progress'
 import * as status from '../lib/videoStatus'
 
@@ -23,56 +21,13 @@ const styles = () => ({
   },
   inactive: {
     cursor: 'default',
-  },
-  uploadButton: {
-    width: '100%',
-    height: '100%'
-  },
-  uploadIcon: {
-    width: '100%',
-    height: '100%'
-  },
-  input: {
-    display: 'none'
-  },
-  spinner: {
-    margin: '40px auto',
-    display: 'block'
   }
 });
 
 function VideoList(props) {
-  const {classes, items, onItemClick, onFileSelected, isUploading, progress} = props;
+  const {classes, items, onItemClick} = props;
 
   let itemClickHandler = onItemClick.bind(this);
-  let uploadHandler = onFileSelected.bind(this);
-
-  let renderUploadingTile = () => (
-    <GridListTile key="Upload">
-      <CircularProgress
-        size={100}
-        variant="determinate"
-        value={progress}
-        className={classes.spinner}
-      />
-    </GridListTile>
-  );
-
-  let renderReadyToUploadTile = () => (
-    <GridListTile key="Upload">
-      <input
-        onChange={(event) => uploadHandler(event)}
-        className={classes.input}
-        id="raised-button-file"
-        type="file"
-      />
-      <label htmlFor="raised-button-file">
-        <Button variant="raised" component="span" className={classes.uploadButton}>
-          <FileUpload iconStyle={classes.uploadIcon} />
-        </Button>
-      </label>
-    </GridListTile>
-  );
 
   let renderStatusIcon = (itemStatus, id) => {
     switch (itemStatus) {
@@ -108,7 +63,6 @@ function VideoList(props) {
             />
           </GridListTile>
         ))}
-        {isUploading ? renderUploadingTile() : renderReadyToUploadTile()}
       </GridList>
     </div>
   );
@@ -125,10 +79,7 @@ VideoList.propTypes = {
       status: PropTypes.number
     })
   ),
-  onItemClick: PropTypes.func,
-  onFileSelected: PropTypes.func,
-  isUploading: PropTypes.bool,
-  progress: PropTypes.number
+  onItemClick: PropTypes.func
 };
 
 export default withStyles(styles, {withTheme: false})(VideoList);
