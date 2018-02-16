@@ -25,16 +25,29 @@ const styles = () => ({
 });
 
 function VideoList(props) {
-  const {classes, items, onItemClick} = props;
+  const {classes, items, onItemClick, onItemNotLoaded} = props;
 
   let itemClickHandler = onItemClick.bind(this);
 
   let renderStatusIcon = (itemStatus, id) => {
     switch (itemStatus) {
-      case status.LOADING:
+      case status.CREATED:
+      case status.PROCESSING:
         return (
           <IconButton className={classes.inactive}>
             <CircularProgress size={20} />
+          </IconButton>
+        );
+      case status.DELETED:
+        return (
+          <IconButton className={classes.inactive}>
+            DELETED
+          </IconButton>
+        );
+      case status.ERROR:
+        return (
+          <IconButton className={classes.inactive}>
+            ERROR
           </IconButton>
         );
       case status.READY:
@@ -46,6 +59,12 @@ function VideoList(props) {
         );
     }
   };
+
+  for (const index in items) {
+    if ([status.CREATED, status.PROCESSING].indexOf(items[index].status) > -1) {
+      onItemNotLoaded(items[index].id);
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -79,7 +98,8 @@ VideoList.propTypes = {
       status: PropTypes.number
     })
   ),
-  onItemClick: PropTypes.func
+  onItemClick: PropTypes.func,
+  onItemNotLoaded: PropTypes.func
 };
 
 export default withStyles(styles, {withTheme: false})(VideoList);

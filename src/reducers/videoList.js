@@ -1,14 +1,15 @@
 import * as actionType from '../actions/actionTypes'
+import { updateItemStatus, checkIfListUpdateRequired } from '../lib/videoList';
 
 function videoList(state = {
   items: [],
-  lastUpdated: 0
+  needsUpdate: false
 }, action) {
   switch (action.type) {
-    case actionType.REQUEST_LIST_START:
-      return {...state, ...{isFetching: true}};
     case actionType.REQUEST_LIST_SUCCESS:
-      return {...state, ...{items: action.items, isFetching: false}};
+      return {...state, ...{items: action.items}};
+    case actionType.REQUEST_STATUS_SUCCESS:
+      return {...state, ...{items: updateItemStatus(state.items, action.id, action.status), needsUpdate: checkIfListUpdateRequired(action.status) }};
     default:
       return state;
   }

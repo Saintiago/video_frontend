@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import VideoList from '../components/VideoList'
-import { requestVideo } from '../actions/actions';
+import {requestStatus, requestVideo} from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
@@ -10,7 +10,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onItemClick: (id) => dispatch(requestVideo(id))
+    onItemClick: (id) => dispatch(requestVideo(id)),
+    onItemNotLoaded: (id) => dispatch(requestStatus(id))
   }
 };
 

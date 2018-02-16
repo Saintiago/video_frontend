@@ -30,6 +30,8 @@ export default function (state = {
       return {...state, ...{isUploading: false}};
     case actionType.UPLOAD_VIDEO_PROGRESS:
       return {...state, ...{progress: progressPercents(action.loaded, action.total)}};
+    case actionType.REQUEST_STATUS_FAILURE:
+      return {...state, ...{error: action.error.message}};
     default:
       return state;
   }
