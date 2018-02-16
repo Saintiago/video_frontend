@@ -3,9 +3,10 @@ import * as action from './actionTypes'
 import * as view from '../routing/views'
 import {validateList, validateStatus, validateVideo} from '../lib/validators';
 import upload from '../lib/uploader'
+import * as status from '../lib/videoStatus'
 
 // https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0
-const BASE_URL = 'https://virtserver.swaggerhub.com/ilya.shikhaleev/go-workshop-2018/1.0.0';
+const BASE_URL = '';
 
 export function requestListStart() {
   return {
@@ -32,17 +33,6 @@ export function requestList() {
   return function(dispatch) {
     dispatch(requestListStart());
 
-    /*dispatch(requestListSuccess([
-      {
-        "id": "d290f1ee-6c54-4b01-90e6-d701748f0851",
-        "name": "Black Retrospetive Woman",
-        "duration": 127,
-        "thumbnail": "/some/image.png",
-        "status": 5
-      }
-    ]));
-
-    dispatch(switchView(view.LIST))*/
     fetch(BASE_URL + '/api/v1/list', {
       headers: { "Accept": "application/json"}
     })
@@ -224,6 +214,9 @@ export function requestStatus(id) {
             throw new Error('incorrect status json.');
           }
           dispatch(requestStatusSuccess(id, json.status));
+          if (json.status === status.READY) {
+            dispatch(requestList());
+          }
         }
       )
       .catch(error => dispatch(requestStatusFailure(id, error)));
