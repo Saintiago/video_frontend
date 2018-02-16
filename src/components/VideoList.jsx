@@ -4,9 +4,16 @@ import GridList, {GridListTile, GridListTileBar} from 'material-ui/GridList';
 import Subheader from 'material-ui/List/ListSubheader';
 import IconButton from 'material-ui/IconButton';
 import PlayCircleFilled from 'material-ui-icons/PlayCircleFilled';
+import ErrorIcon from 'material-ui-icons/Error';
+import DeleteIcon from 'material-ui-icons/Delete';
 import {withStyles} from 'material-ui/styles';
-import { CircularProgress } from 'material-ui/Progress'
+import {CircularProgress} from 'material-ui/Progress'
 import * as status from '../lib/videoStatus'
+
+import MobileStepper from 'material-ui/MobileStepper';
+import Button from 'material-ui/Button';
+import KeyboardArrowLeft from 'material-ui-icons/KeyboardArrowLeft';
+import KeyboardArrowRight from 'material-ui-icons/KeyboardArrowRight';
 
 const styles = () => ({
   root: {
@@ -25,7 +32,7 @@ const styles = () => ({
 });
 
 function VideoList(props) {
-  const {classes, items, onItemClick, onItemNotLoaded} = props;
+  const {classes, items, onItemClick, onItemNotLoaded, onPaginationClicked, paginationParams} = props;
 
   let itemClickHandler = onItemClick.bind(this);
 
@@ -35,30 +42,34 @@ function VideoList(props) {
       case status.PROCESSING:
         return (
           <IconButton className={classes.inactive}>
-            <CircularProgress size={20} />
+            <CircularProgress size={20}/>
           </IconButton>
         );
       case status.DELETED:
         return (
           <IconButton className={classes.inactive}>
-            DELETED
+            <DeleteIcon/>
           </IconButton>
         );
       case status.ERROR:
         return (
-          <IconButton className={classes.inactive}>
-            ERROR
+          <IconButton className={classes.inactive} label="Deleted">
+            <ErrorIcon/>
           </IconButton>
         );
       case status.READY:
       default:
         return (
           <IconButton onClick={() => itemClickHandler(id)}>
-            <PlayCircleFilled />
+            <PlayCircleFilled/>
           </IconButton>
         );
     }
   };
+  const {skip, limit} = paginationParams;
+  const activePage = skip / limit;
+  const nextPageParams = {limit: limit, skip: skip + limit};
+  const prevPageParams = {limit: limit, skip: skip - limit};
 
   for (const index in items) {
     if ([status.CREATED, status.PROCESSING].indexOf(items[index].status) > -1) {
@@ -74,7 +85,7 @@ function VideoList(props) {
         </GridListTile>
         {items.map(tile => (
           <GridListTile key={tile.id}>
-            <img src={tile.thumbnail} alt={tile.title} />
+            <img src={tile.thumbnail} alt={tile.title}/>
             <GridListTileBar
               title={tile.name}
               subtitle={<span>Duration: {tile.duration}</span>}
@@ -82,6 +93,25 @@ function VideoList(props) {
             />
           </GridListTile>
         ))}
+        <GridListTile key="Pagination" cols={2} style={{height: 'auto'}}>
+          <MobileStepper
+            variant="text"
+            position="static"
+            activeStep={activePage}
+            nextButton={
+              <Button size="small" onClick={() => onPaginationClicked(nextPageParams)}>
+                Next
+                <KeyboardArrowRight/>
+              </Button>
+            }
+            backButton={
+              <Button size="small" onClick={() => onPaginationClicked(prevPageParams)} disabled={activePage === 0}>
+                <KeyboardArrowLeft/>
+                Back
+              </Button>
+            }
+          />
+        </GridListTile>
       </GridList>
     </div>
   );
@@ -99,7 +129,12 @@ VideoList.propTypes = {
     })
   ),
   onItemClick: PropTypes.func,
-  onItemNotLoaded: PropTypes.func
+  onItemNotLoaded: PropTypes.func,
+  onPaginationClicked: PropTypes.func,
+  paginationParams: PropTypes.shape({
+    skip: PropTypes.number,
+    limit: PropTypes.number
+  })
 };
 
 export default withStyles(styles, {withTheme: false})(VideoList);

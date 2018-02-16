@@ -1,17 +1,19 @@
 import { connect } from 'react-redux'
 import VideoList from '../components/VideoList'
-import {requestStatus, requestVideo} from '../actions/actions';
+import {paginate, requestStatus, requestVideo} from '../actions/actions';
 
 const mapStateToProps = state => {
   return {
-    items: state.videoList.items
+    items: state.videoList.items,
+    paginationParams: state.videoList.paginationParams,
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onItemClick: (id) => dispatch(requestVideo(id)),
-    onItemNotLoaded: (id) => dispatch(requestStatus(id))
+    onItemClick: id => dispatch(requestVideo(id)),
+    onItemNotLoaded: id => dispatch(requestStatus(id)),
+    onPaginationClicked: params => dispatch(paginate(params))
   }
 };
 

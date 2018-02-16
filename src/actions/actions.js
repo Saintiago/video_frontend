@@ -28,13 +28,18 @@ export function requestListFailure(error) {
   }
 }
 
-export function requestList() {
+export function requestList(data) {
 
-  return function(dispatch) {
+  return function(dispatch, getState) {
     dispatch(requestListStart());
 
-    fetch(BASE_URL + '/api/v1/list', {
-      headers: { "Accept": "application/json"}
+    const defaultParams = getState().videoList.paginationParams;
+    data = {...defaultParams, ...(data || {})};
+    const query = '?' + Object.entries(data).map(param => param.join('=')).join('&');
+
+    fetch(BASE_URL + '/api/v1/list' + query, {
+      headers: { "Accept": "application/json"},
+      method: 'GET'
     })
       .then(response => response.json())
       .then(
@@ -178,7 +183,7 @@ export function uploadVideo(event) {
 
     upload(method, url, headers, form, onProgress)
       .then(() => dispatch(uploadVideoSuccess()))
-      .then(() => dispatch(requestList()))
+      .then(() => dispatch(requestList({skip: 0})))
       .catch((err) => dispatch(uploadVideoFailure(new Error(err.status + ': ' + err.statusText))));
   }
 }
@@ -215,7 +220,7 @@ export function requestStatus(id) {
           }
           dispatch(requestStatusSuccess(id, json.status));
           if (json.status === status.READY) {
-            dispatch(requestList());
+            dispatch(requestList({skip: 0}));
           }
         }
       )
@@ -224,4 +229,16 @@ export function requestStatus(id) {
   }
 }
 
+export function paginate(params) {
+  return function (dispatch) {
+    dispatch(updatePaginationData(params));
+    dispatch(requestList(params));
+  }
+}
 
+export function updatePaginationData(params) {
+  return {
+    type: action.UPDATE_PAGINATION_DATA,
+    params
+  }
+}
