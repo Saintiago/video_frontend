@@ -5,7 +5,7 @@ import { createStore, applyMiddleware } from 'redux'
 import Reducers from './reducers'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { requestList } from './actions/actions'
+import { requestList } from './actions/requestList'
 
 const store = createStore(
   Reducers,

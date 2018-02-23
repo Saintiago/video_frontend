@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import VideoList from '../components/VideoList'
-import {paginate, requestStatus, requestVideo} from '../actions/actions';
+import {paginate} from '../actions/actions';
+import {requestStatus} from '../actions/requestStatus'
+import {requestVideo} from '../actions/requestVideo'
 
 const mapStateToProps = state => {
   return {

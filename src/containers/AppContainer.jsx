@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import App from '../components/App'
-import {goToList, uploadVideo} from '../actions/actions';
+import {goToList} from '../actions/actions';
+import {uploadVideo} from "../actions/uploadVideo";
+
 
 const mapStateToProps = state => {
   return {
